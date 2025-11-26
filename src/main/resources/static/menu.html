@@ -1,14 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles/menu.css" />
     <script src="js/menu.js" defer></script>
+    <link rel="shortcut icon" href="images/icon.svg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <title>Spotify - Menu</title>
 </head>
+
 <body>
-    
+    <aside class="sidebar">
+        <div id="logo-container">
+            <img src="images/icon.svg" alt="logo" id="logoMenu">
+            <h2>Spotify</h2>
+        </div>
+        <a href="menu.html">
+            <span class="material-symbols-rounded">delete</span>
+            Início
+        </a>
+        <a href="menu.html">
+            <span class="material-symbols-rounded">music_note</span>
+            Playlists
+        </a>
+        <button id="btnLogout" class="logout">
+            <span class="material-symbols-rounded">logout</span>
+            Sair
+        </button>
+    </aside>
+
+    <main class="content">
+        <section class="playlists-section">
+            <header class="page-header">
+                <h1>Suas Playlists</h1>
+                <button id="btnNovaPlaylist" class="btn-playlist">+ Nova Playlist</button>
+            </header>
+
+            <div id="listaPlaylists" class="playlist-grid"></div>
+        </section>
+
+    </main>
+
+    <div id="modalCriar" class="modal hidden">
+        <div class="modal-box">
+
+            <h2>Criar Playlist</h2>
+
+            <label>Nome da playlist</label>
+            <input type="text" id="nomePlaylist">
+
+            <label>Descrição</label>
+            <textarea id="descPlaylist"></textarea>
+
+            <div class="modal-actions">
+                <button id="salvarPlaylist" class="btn-playlist">Salvar</button>
+                <button class="btn-close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>

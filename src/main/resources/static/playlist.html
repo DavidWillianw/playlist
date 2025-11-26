@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Playlist</title>
+    <link rel="shortcut icon" href="images/icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="styles/playlist.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <script src="js/playlist.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div id="logo-container">
+                <img src="images/icon.svg" alt="logo" id="logoMenu">
+                <h2>Spotify</h2>
+            </div>
+            <a href="menu.html">
+                <span class="material-symbols-rounded">delete</span>
+                Início
+            </a>
+            <a href="menu.html">
+                <span class="material-symbols-rounded">music_note</span>
+                Playlists
+            </a>
+            <button id="btnLogout" class="logout">
+                <span class="material-symbols-rounded">logout</span>
+                Sair
+            </button>
+        </aside>
+
+        <main class="content">
+
+            <div class="playlist-header">
+                <img id="playlistCapa" class="playlist-cover" src="images/default-cover.png">
+
+                <div class="playlist-info">
+                    <span class="playlist-type">Playlist</span>
+                    <h1 id="playlistTitulo">Carregando...</h1>
+                    <p id="playlistOwner">do usuário</p>
+                </div>
+            </div>
+
+            <button id="btnAbrirModalMusica" class="btn-add">+ Adicionar Música</button>
+
+            <table class="musica-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Artista</th>
+                        <th>Duração</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaMusicas"></tbody>
+            </table>
+
+        </main>
+
+    </div>
+
+    <div id="modalMusica" class="modal hidden">
+        <div class="modal-content">
+            <h3>Adicionar Música</h3>
+            <label>Título:</label>
+            <input id="musicaTitulo" type="text">
+            <label>Artista:</label>
+            <input id="musicaArtista" type="text">
+            <label>Duração (MM:SS):</label>
+            <input id="musicaDuracao" type="text">
+            <div class="modal-buttons">
+                <button id="btnCancelarMusica" class="cancelar">Cancelar</button>
+                <button id="btnAdicionarMusica" class="confirmar">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
