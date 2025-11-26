@@ -16,7 +16,7 @@ public class MusicaController {
 
     @Autowired
     private MusicaRepository musicaRepository;
-    
+
     @Autowired
     private PlaylistRepository playlistRepository;
 
@@ -38,6 +38,11 @@ public class MusicaController {
         return musicaRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/buscar")
+    public List<Musica> buscarPorNome(@RequestParam String nome) {
+        return musicaRepository.findByTituloContainingIgnoreCase(nome);
     }
 
     // UPDATE - PUT /{id} <-- NOVO

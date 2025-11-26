@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.playlist.dto.LoginRequest;
-import com.playlist.dto.LoginResponse;
 import com.playlist.model.Usuario;
 import com.playlist.security.JwtUtil;
 import com.playlist.service.UsuarioService;
