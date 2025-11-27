@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/musicas")
@@ -16,23 +17,17 @@ public class MusicaController {
 
     @Autowired
     private MusicaRepository musicaRepository;
-    
+
     @Autowired
     private PlaylistRepository playlistRepository;
 
-    // INSERT - POST
-    @PostMapping
-    public Musica criar(@RequestBody Musica musica) {
-        return musicaRepository.save(musica);
-    }
-
-    // SELECT ALL - GET
+    // Listar todas
     @GetMapping
     public List<Musica> listar() {
         return musicaRepository.findAll();
     }
 
-    // SELECT BY ID - GET /{id} <-- NOVO
+    // Buscar por ID
     @GetMapping("/{id}")
     public ResponseEntity<Musica> buscarPorId(@PathVariable Long id) {
         return musicaRepository.findById(id)
@@ -40,27 +35,40 @@ public class MusicaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE - PUT /{id} <-- NOVO
-    @PutMapping("/{id}")
-    public ResponseEntity<Musica> atualizar(@PathVariable Long id, @RequestBody Musica musicaNova) {
-        return musicaRepository.findById(id)
-                .map(musica -> {
-                    musica.setTitulo(musicaNova.getTitulo());
-                    musica.setArtista(musicaNova.getArtista());
-                    // Atualiza a duração se ela vier via JSON
-                    if (musicaNova.getDuracaoEmSegundos() > 0) {
-                        musica.setDuracaoEmSegundos(musicaNova.getDuracaoEmSegundos());
-                    }
-                    return ResponseEntity.ok(musicaRepository.save(musica));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    // Buscar por Nome
+    @GetMapping("/buscar")
+    public List<Musica> buscarPorNome(@RequestParam String nome) {
+        return musicaRepository.findByTituloContainingIgnoreCase(nome);
     }
 
-    // DELETE - DELETE /{id}
+    // Atualizar 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Map<String, Object> dados) {
+        return musicaRepository.findById(id)
+                .map(musica -> {
+                    if (dados.containsKey("titulo")) musica.setTitulo((String) dados.get("titulo"));
+                    if (dados.containsKey("artista")) musica.setArtista((String) dados.get("artista"));
+                    
+                    if (dados.containsKey("duracao")) {
+                        try {
+                            String novaDuracao = (String) dados.get("duracao");
+                            musica.setDuracao(novaDuracao); 
+                        } catch (IllegalArgumentException e) {
+                            throw new IllegalArgumentException(e.getMessage());
+                        } catch (Exception e) {
+                            throw new IllegalArgumentException("Formato de duração inválido.");
+                        }
+                    }
+
+                    return ResponseEntity.ok(musicaRepository.save(musica));
+                })
+                .orElse(ResponseEntity.notFound().build());                
+    }
+
+    // Deletar
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         return musicaRepository.findById(id).map(musica -> {
-            // Remove a música das playlists antes de apagar
             for (Playlist playlist : musica.getPlaylists()) {
                 playlist.getMusicas().remove(musica);
                 playlistRepository.save(playlist);

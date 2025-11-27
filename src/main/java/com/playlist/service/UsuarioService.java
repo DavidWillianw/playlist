@@ -18,6 +18,9 @@ public class UsuarioService {
     private PasswordEncoder encoder;
 
     public Usuario cadastrar(Usuario usuario) {
+        if (usuarioRepository.findByLogin(usuario.getLogin()).isPresent()) {
+            throw new IllegalArgumentException("Este login (e-mail) já está cadastrado.");
+        }
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }

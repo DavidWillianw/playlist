@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.playlist.dto.LoginRequest;
-import com.playlist.dto.LoginResponse;
 import com.playlist.model.Usuario;
 import com.playlist.security.JwtUtil;
 import com.playlist.service.UsuarioService;
@@ -25,11 +24,16 @@ public class AuthController {
     private final UsuarioService usuarioService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/register")
+@PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
+        try {
+            Usuario novo = usuarioService.cadastrar(usuario);
+            return ResponseEntity.ok(novo);
+        } catch (IllegalArgumentException e) {
 
-        Usuario novo = usuarioService.cadastrar(usuario);
-        return ResponseEntity.ok(novo);
+            return ResponseEntity.badRequest()
+                    .body(java.util.Map.of("message", e.getMessage()));
+        }
     }
 
     @PostMapping("/login")
@@ -50,7 +54,8 @@ public class AuthController {
         return ResponseEntity.ok(Map.of(
                 "token", token,
                 "login", usuario.getLogin(),
-                "nome", usuario.getNome()));
+                "nome", usuario.getNome(),
+                "id", usuario.getId()));
     }
 
     @GetMapping("/validate")

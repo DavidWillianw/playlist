@@ -36,7 +36,12 @@ public class Musica {
             String[] partes = tempoFormatado.split(":");
             int minutos = Integer.parseInt(partes[0]);
             int segundos = Integer.parseInt(partes[1]);
+
+            if(segundos >59){
+                throw new IllegalArgumentException("Os segundos não podem ser maiores que 59 segundos");
+            }
             this.duracaoEmSegundos = (minutos * 60) + segundos;
+
         } else {
             // Se vier só um número vai entender como minutos tipo um 5 seriam 5 minutos teria que ver se seria necessário
             // adicionar a diferença de minutos pra segundos

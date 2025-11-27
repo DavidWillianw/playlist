@@ -52,13 +52,15 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE - DELETE /{id}
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
-        if (usuarioRepository.existsById(id)) {
-            usuarioRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+@DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarUsuario(@PathVariable Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new java.util.NoSuchElementException("Usuário não encontrado para exclusão.");
         }
-        return ResponseEntity.notFound().build();
+
+        usuarioRepository.deleteById(id);
+
+        return ResponseEntity.ok()
+                .body(java.util.Map.of("mensagem", "Usuário deletado com sucesso"));
     }
 }

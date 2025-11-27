@@ -39,13 +39,12 @@ public class SecurityConfig {
                         "/login.html",
                         "/register.html",
                         "/menu.html",
+                        "/playlist.html",
                         "/styles/**",
                         "/js/**",
                         "/images/**")
                 .permitAll()
-                .requestMatchers("/menu.html").authenticated()
                 .anyRequest().authenticated());
-
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

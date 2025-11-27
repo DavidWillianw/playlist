@@ -21,7 +21,8 @@ document.querySelector("form").addEventListener("submit", async (e) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("usuarioNome", data.nome);
         localStorage.setItem("usuarioLogin", data.login);
-
+        localStorage.setItem("usuarioId", data.id);
+        
         window.location.href = "menu.html";
 
     } catch (error) {
